@@ -5,6 +5,7 @@ import React, { useRef, useEffect, useState } from "react";
 //import * as tf from "@tensorflow/tfjs";
 
 import Header from "./components/header";
+import First from "./first";
  
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
     <>
 
     <Header/>
+    <First/>
     
     {/* <div className="flex w-full justify-center items-center py-8">
      
@@ -115,7 +117,7 @@ function App() {
 
     
 
-    <div className="flex w-full items-center justify-center">
+    <div id="video" className="flex w-full items-center justify-center">
       <div className="w-[640px] h-[480px] bg-black rounded-lg"></div>
     </div>
     </>
