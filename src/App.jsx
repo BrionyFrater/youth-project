@@ -1,28 +1,26 @@
 import "./App.css";
 import React, { useRef, useEffect, useState } from "react";
 import Webcam from "react-webcam";
+import { drawRect } from "./utils";
 import * as tf from "@tensorflow/tfjs";
-import { nextFrame } from "@tensorflow/tfjs";
-// 2. TODO - Import drawing utility here
-// e.g. import { drawRect } from "./utilities";
-import {drawRect} from "./utils"; 
+ 
 
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
 
-  const runCoco = async () => {
+  const runNetwork = async () => {
 
-    const net = await tf.loadGraphModel('https://storage.googleapis.com/youth_model/model.json')
+    const network = await tf.loadGraphModel('https://storage.googleapis.com/youth_model/model.json')
     
     //  Loop and detect hands
     setInterval(() => {
-      detect(net);
-    }, 16.7);
+      detect(network);
+    }, 10);
   };
 
-  const detect = async (net) => {
+  const detect = async (network) => {
     // Check data is available
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -42,14 +40,13 @@ function App() {
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
-      // 4. TODO - Make Detections
+
       const img = tf.browser.fromPixels(video)
       const resized = tf.image.resizeBilinear(img, [640,480])
       const casted = resized.cast('int32')
       const expanded = casted.expandDims(0)
-      const obj = await net.executeAsync(expanded)
+      const obj = await network.executeAsync(expanded)
       //console.log(obj)
-
       const boxes = await obj[1].array()
       const classes = await obj[2].array()
       const scores = await obj[4].array()
@@ -73,17 +70,19 @@ function App() {
     }
   };
 
-  useEffect(()=>{runCoco()},[]);
+  useEffect(()=>{
+    runNetwork()
+  },[]);
 
   return (
-    <div className="flex w-full justify-center">
-      
-      <header className="">
+    <>
+    <div className="flex w-full justify-center items-center py-8">
+     
         <Webcam
           ref={webcamRef}
           muted={true} 
           mirrored={true}
-          className="relative text-center z-[9] rounded-md"
+          className="absolute text-center z-[4] rounded-lg"
           style={{
             width: 640,
             height: 480,
@@ -99,15 +98,16 @@ function App() {
             left: 0,
             right: 0,
             textAlign: "center",
-            zindex: 8,
+            zindex: 9,
             width: 640,
             height: 480,
           }}
         />
 
 
-      </header>
+      
     </div>
+    </>
   );
 }
 
