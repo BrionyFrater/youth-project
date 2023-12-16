@@ -106,6 +106,7 @@ function App() {
             zindex: 9,
             width: 640,
             height: 480,
+            display: "none"
           }}
         />
 

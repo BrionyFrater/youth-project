@@ -10,7 +10,7 @@ export default function Header(){
 
             </a>
 
-            <a href="">
+            <a href="#resources">
               <li className="font-bold text-black hover:text-[#e9ff88] hover:cursor-pointer transition-all ease-in-out">Resources</li>
             </a>
 
