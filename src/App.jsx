@@ -1,95 +1,97 @@
 import "./App.css";
 import React, { useRef, useEffect, useState } from "react";
-//import Webcam from "react-webcam";
-//import { drawRect } from "./utils";
-//import * as tf from "@tensorflow/tfjs";
+import Webcam from "react-webcam";
+import { drawRect } from "./utils";
+import * as tf from "@tensorflow/tfjs";
 
 import Header from "./components/header";
 import First from "./first";
+import Resources from "./resources";
  
 
 function App() {
-  // const webcamRef = useRef(null);
-  // const canvasRef = useRef(null);
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
 
 
-  // const runNetwork = async () => {
+  const runNetwork = async () => {
 
-  //   const network = await tf.loadGraphModel('https://storage.googleapis.com/youth_model/model.json')
+    const network = await tf.loadGraphModel('https://storage.googleapis.com/youth_model/model.json')
     
-  //   //  Loop and detect hands
-  //   setInterval(() => {
-  //     detect(network);
-  //   }, 10);
-  // };
+    //  Loop and detect hands
+    setInterval(() => {
+      detect(network);
+    }, 10);
+  };
 
-  // const detect = async (network) => {
-  //   // Check data is available
-  //   if (
-  //     typeof webcamRef.current !== "undefined" &&
-  //     webcamRef.current !== null &&
-  //     webcamRef.current.video.readyState === 4
-  //   ) {
-  //     // Get Video Properties
-  //     const video = webcamRef.current.video;
-  //     const videoWidth = webcamRef.current.video.videoWidth;
-  //     const videoHeight = webcamRef.current.video.videoHeight;
+  const detect = async (network) => {
+    // Check data is available
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      // Get Video Properties
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
 
-  //     // Set video width
-  //     webcamRef.current.video.width = videoWidth;
-  //     webcamRef.current.video.height = videoHeight;
+      // Set video width
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
 
-  //     // Set canvas height and width
-  //     canvasRef.current.width = videoWidth;
-  //     canvasRef.current.height = videoHeight;
+      // Set canvas height and width
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
 
 
-  //     const img = tf.browser.fromPixels(video)
-  //     const resized = tf.image.resizeBilinear(img, [640,480])
-  //     const casted = resized.cast('int32')
-  //     const expanded = casted.expandDims(0)
-  //     const obj = await network.executeAsync(expanded)
-  //     //console.log(obj)
-  //     const boxes = await obj[1].array()
-  //     const classes = await obj[2].array()
-  //     const scores = await obj[4].array()
+      const img = tf.browser.fromPixels(video)
+      const resized = tf.image.resizeBilinear(img, [640,480])
+      const casted = resized.cast('int32')
+      const expanded = casted.expandDims(0)
+      const obj = await network.executeAsync(expanded)
+      //console.log(obj)
+      const boxes = await obj[1].array()
+      const classes = await obj[2].array()
+      const scores = await obj[4].array()
       
 
       
-  //     // Draw mesh
-  //     const ctx = canvasRef.current.getContext("2d");
+      // Draw mesh
+      const ctx = canvasRef.current.getContext("2d");
 
-  //     // 5. TODO - Update drawing utility
-  //     //drawSomething(obj, ctx)  
-  //     requestAnimationFrame(()=>{drawRect(boxes[0], classes[0], scores[0], 0.8, videoWidth, videoHeight, ctx)}); 
+      // 5. TODO - Update drawing utility
+      //drawSomething(obj, ctx)  
+      requestAnimationFrame(()=>{drawRect(boxes[0], classes[0], scores[0], 0.8, videoWidth, videoHeight, ctx)}); 
 
-  //     //take out so they dont hog memory
-  //     tf.dispose(img)
-  //     tf.dispose(resized)
-  //     tf.dispose(casted)
-  //     tf.dispose(expanded)
-  //     tf.dispose(obj)
+      //take out so they dont hog memory
+      tf.dispose(img)
+      tf.dispose(resized)
+      tf.dispose(casted)
+      tf.dispose(expanded)
+      tf.dispose(obj)
 
-  //   }
-  // };
+    }
+  };
 
-  // useEffect(()=>{
-  //   runNetwork()
-  // },[]);
+  useEffect(()=>{
+    runNetwork()
+  },[]);
 
   return (
     <>
 
     <Header/>
     <First/>
+
     
-    {/* <div className="flex w-full justify-center items-center py-8">
+    <div className="flex w-full justify-center items-center py-8">
      
         <Webcam
           ref={webcamRef}
           muted={true} 
           mirrored={true}
-          className="absolute text-center z-[4] rounded-lg"
+          className="relative text-center z-[4] rounded-lg"
           style={{
             width: 640,
             height: 480,
@@ -99,11 +101,7 @@ function App() {
         <canvas
           ref={canvasRef}
           style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
+            position: "relative",
             textAlign: "center",
             zindex: 9,
             width: 640,
@@ -113,13 +111,16 @@ function App() {
 
 
       
-    </div> */}
+    </div>
 
     
 
-    <div id="video" className="flex w-full items-center justify-center">
+    {/* <div id="video" className="flex flex-col w-full items-center justify-center">
+      <h2 className="text-4xl text-[#89ea7c] pb-8">Sign Helper</h2>
       <div className="w-[640px] h-[480px] bg-black rounded-lg"></div>
-    </div>
+    </div> */}
+
+    <Resources/>
     </>
   );
 }

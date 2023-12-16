@@ -1,6 +1,6 @@
 export default function First(){
     return(
-        <div className="overflow-y-hidden flex bg-[#ffffff] w-full h-[400px] pt-20 px-40 text-black">
+        <div className="mb-32 flex justify-between items-center bg-[#ffffff] w-full h-[400px] pt-20 px-72 text-black">
             <div>
 
             <h1 className="text-5xl">Youre all
@@ -19,7 +19,7 @@ export default function First(){
 
             </div>
 
-            <img src="/handup.jpg" className="w-[500px] rounded-lg"/>
+            <img src="/handup.jpg" className="w-[300px] rounded-lg"/>
 
         </div>
     )

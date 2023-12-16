@@ -22,10 +22,10 @@ export const drawRect = (boxes, classes, scores, threshold, imgWidth, imgHeight,
             ctx.font = '30px Arial'         
             
             
-            ctx.beginPath()
-            ctx.fillText(labelMap[text]['tag'] + ' - ' + Math.round(scores[lcv]*100)/100, x*imgWidth, y*imgHeight-10)
-            ctx.rect(x*imgWidth, y*imgHeight, width*imgWidth/2, height*imgHeight/1.5);
-            ctx.stroke()
+            // ctx.beginPath()
+            // ctx.fillText(labelMap[text]['tag'] + ' - ' + Math.round(scores[lcv]*100)/100, x*imgWidth, y*imgHeight-10)
+            // ctx.rect(x*imgWidth, y*imgHeight, width*imgWidth/2, height*imgHeight/1.5);
+            // ctx.stroke()
 
             console.log(labelMap[text]['tag'] + ' - ' + Math.round(scores[lcv]*100)/100, x*imgWidth, y*imgHeight-10)
             console.log(x*imgWidth, y*imgHeight, width*imgWidth/2, height*imgHeight/1.5);
